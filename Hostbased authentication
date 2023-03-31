@@ -1,0 +1,34 @@
+Hostbased authentication
+
+1. In Client machine
+    a.Open vim /etc/ssh/ssh_config file and add below
+        EnableSSHKeysign yes
+    b. cat /etc/ssh/ssh_host_rsa_key.pub
+        Copy the content into a notepad in below format
+        <ipaddress of your client>, <hostname of your client> <content of /etc/ssh/ssh_host_rsa_key.pub->
+
+        example:-
+        10.144.74.239,10.145.79.231, ubuntu-santosh ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCa1VGwNSMTGKp9s19aIn3PqOEKA68Jc
+        +8RAML1nLFmpQKQcEggHSSBxPS5tzxJ5gYjwFNHMAcuAyEBD4JHimXfHGH+5BhgQxTZM8+cM5np/fCTooXeigoWoX
+        +3fUwKvF152EmeRqUmX3QGs6yKHR5j6cedk
+        +d9IgBi8inVhu6ygb0zkDLxg4ZRwDdC2bVEg80SwD8gCzbA9q0z8eocTR/ivieu@tmMxGhR1sBFZodi/hbYf2H5CAQYYENGQEDDOVS8F38RgdgK55H
+        +uwij VbLAYJ14tPxn2eUvkL7dEfTuodQbYt1CDWk01rQpcN9A1GfavOkdAmvZUHaToGXNscEcj RrR10M fxMd1RFOP8CnOnMFhvoYDxSxkj LFSLBXIIw8M
+        k7gBV85fpyyMU8KA9KanratC5r3s0cFP7HSBCdYmrnsmq/i/2xJSRATyvt3T8xxnDIlg6bL7F2n84EcfvM4kf/f/4bn+bro+hHU=
+
+2. Go to the server
+    a. Open/create /etc/ssh/ssh_known_hosts file and add the content of the notepad to file. 
+    b. create /root/.rhosts file with content like below.
+
+        <Host name or IPof client> <user name of client>
+        10.145.79.231-root
+        ubuntu-santosh-root
+
+    c. Open /etc/ssh/sshd_config file make sure below entries are set
+
+        HostbasedUsesNameFromPacketOnly yes
+        HostbasedAuthentication yes
+        IgnoreRhosts no
+
+    d. restart sshd
+3. From client machine try ssh like below.
+    a. ssh"-oHostbasedAuthentication=yes"..root@<IP>
