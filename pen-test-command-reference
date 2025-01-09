@@ -1,0 +1,21 @@
+List process without ps
+find /proc -mindepth 2 -maxdepth 2 -name exe -exec ls -lh {} \; 2>/dev/null
+
+
+##List ports without netstat##
+declare -a array=($(tail -n +2 /proc/net/tcp | cut -d":" -f"3"|cut -d" " -f"1")) && for port in ${array[@]}; do echo $((0x$port)); done
+
+Ip address without ifconfig
+import socket
+import fcntl
+import struct
+
+def get_ip_address(ifname):
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    return socket.inet_ntoa(fcntl.ioctl(
+        s.fileno(),
+        0x8915,  # SIOCGIFADDR
+        struct.pack(b"256s", ifname[:15].encode('utf-8'))
+    )[20:24])
+
+print(get_ip_address('eth0'))  # '192.168.0.110'
