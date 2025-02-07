@@ -4,11 +4,18 @@
 // https://developer.okta.com/signup/
 
 $client_id = 'test_client';
-$client_secret = 'klpB61p0Ke7PpvkTHTfs9DOWh60si1R4';
+$client_secret = 'pBpmdGygT0nBjq2Llyp9wuoHMlsFtY31';
 $metadata = http('http://10.27.122.198:8080/realms/master/.well-known/openid-configuration');
+
+/*
+$client_id = 'mMgsGASprKCmTtvI9WpGajpwkF48fTm2';
+$client_secret = 'CJKg0rhpIdTd3yPpomM1MLAUjhajad18u4yHKAKAoOSLmZkpNohNe4mXxb3rSB9e';
+$metadata = http('https://dev-s0gq7vhqvi4cdbrf.us.auth0.com/.well-known/openid-configuration');
+*/
 
 $ip = '10.27.122.198';
 $port = '9099';
+
 
 $redirect_uri = 'http://'.$ip.':'.$port.'/authorization-code/callback';
 $socket_str = 'tcp://'.$ip.':'.$port;
@@ -67,8 +74,23 @@ $token = http($metadata->introspection_endpoint, [
   'client_secret' => $client_secret,
 ]);
 
+
 print_r($token);
 
+echo "Get external token---\n";
+
+$response = http($metadata->token_endpoint, [
+  'grant_type' => 'urn:ietf:params:oauth:grant-type:token-exchange',
+  'requested_issuer' =>'oidc',
+  'subject_token' => $access_token,
+  'requested_token_type' => 'urn:ietf:params:oauth:token-type:access_token',
+  'client_id' => $client_id,
+  'client_secret' => $client_secret,
+]);
+
+#'subject_token' => $access_token,
+#'subject_token_type' => 'urn:ietf:params:oauth:token-type:access_token',
+print_r($response);
 if($token->active == 1) {
   echo "Logged in as ".$token->username."\n";
   die();
