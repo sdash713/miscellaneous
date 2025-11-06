@@ -1,0 +1,81 @@
+
+1. Authentication Mechanisms  
+- Are strong, multi-factor authentication (MFA) methods enforced?  
+- Are credentials stored securely (e.g., hashed, salted)?
+
+2. Authorization & Access Control  
+- Is least privilege enforced?  
+- Are roles and permissions clearly defined and scoped?
+
+3. Data Protection  
+- Is sensitive data encrypted at rest and in transit?  
+- Are key management practices secure?
+
+4. Secrets Management  
+- Are secrets (API keys, tokens, passwords) stored securely (e.g., AWS Secrets Manager, HashiCorp Vault)?  
+- Is secret rotation automated?
+
+5. Trust Zone Segmentation  
+- Are trust boundaries clearly defined?  
+- Is traffic between zones monitored and controlled?
+
+6. Protocol Security  
+- Are secure protocols (e.g., HTTPS, TLS 1.2+) used?  
+- Are insecure protocols (e.g., FTP, Telnet) disabled?
+
+7. Identity Federation & SSO  
+- Is identity federation implemented securely?  
+- Are tokens validated and scoped properly?
+
+8. Logging & Monitoring  
+- Are security events logged?  
+- Is log integrity ensured (e.g., tamper-proof storage)?
+
+9. Threat Modeling Coverage  
+- Are threat models created for critical components?  
+- Are mitigations mapped to identified threats?
+
+10. API Security  
+- Are APIs authenticated and rate-limited?  
+- Is input validation enforced?
+
+11. Secure Software Supply Chain  
+- Are dependencies scanned for vulnerabilities?  
+- Is SBOM (Software Bill of Materials) maintained?
+
+12. Cloud Security Posture  
+- Are cloud services configured securely (e.g., IAM, storage buckets)?  
+- Are CSPM tools used?
+
+13. Network Security  
+- Are firewalls, security groups, and ingress/egress rules properly configured?  
+- Is lateral movement restricted?
+
+14. Container & Orchestration Security  
+- Are container images scanned?  
+- Are Kubernetes RBAC and network policies enforced?
+
+15. Vulnerability Management  
+- Are regular scans conducted?  
+- Is patching automated and tracked?
+
+16. Secure CI/CD Pipeline  
+- Are build artifacts signed?  
+- Are secrets and credentials protected in pipelines?
+
+17. Third-Party Integration Risks  
+- Are third-party services vetted?  
+- Are scopes and permissions minimized?
+
+18. Resilience & Recovery  
+- Are backup and recovery plans in place?  
+- Is RTO/RPO defined and tested?
+
+19. Compliance Alignment  
+- Are controls mapped to frameworks (e.g., SOC 2, ISO 27001)?  
+- Are data residency and privacy requirements met?
+
+20. Security Testing Strategy  
+- Are static/dynamic/code reviews part of the SDLC?  
+- Are pen tests and red team exercises conducted?
+
