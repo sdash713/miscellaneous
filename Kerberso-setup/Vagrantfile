@@ -1,0 +1,51 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  # Windows Server 2019 (Domain Controller & KDC)
+  config.vm.define "ad-server" do |ad|
+    ad.vm.box = "gusztavvargadr/windows-server-2019-standard"
+    ad.vm.hostname = "ad-server"
+    ad.vm.network "private_network", ip: "192.168.56.10"
+    
+    ad.vm.provider "virtualbox" do |vb|
+      vb.memory = 4096
+      vb.cpus = 2
+    end
+    
+    # Ensure Vagrant can re-authenticate after DC promotion
+    ad.winrm.transport = :plaintext
+    ad.winrm.basic_auth_only = true
+
+    # Provision AD, domain, users, and keytab
+    ad.vm.provision "shell", path: "provision-ad.ps1", privileged: true, reboot: true
+  end
+
+  # Linux Server (SSH Server / Kerberos Service)
+  config.vm.define "linux-server" do |srv|
+    srv.vm.box = "ubuntu/jammy64"
+    srv.vm.hostname = "linux-server"
+    srv.vm.network "private_network", ip: "192.168.56.11"
+    
+    srv.vm.provider "virtualbox" do |vb|
+      vb.memory = 1024
+      vb.cpus = 1
+    end
+
+    srv.vm.provision "shell", path: "provision-linux-server.sh", privileged: true
+  end
+
+  # Linux Client (SSH Client / Kerberos Client)
+  config.vm.define "linux-client" do |cli|
+    cli.vm.box = "ubuntu/jammy64"
+    cli.vm.hostname = "linux-client"
+    cli.vm.network "private_network", ip: "192.168.56.12"
+    
+    cli.vm.provider "virtualbox" do |vb|
+      vb.memory = 1024
+      vb.cpus = 1
+    end
+
+    cli.vm.provision "shell", path: "provision-linux-client.sh", privileged: true
+  end
+end
